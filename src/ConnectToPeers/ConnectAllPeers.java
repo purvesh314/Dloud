@@ -5,7 +5,7 @@
  */
 package ConnectToPeers;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import ConnectToPeers.ServerConnection;
 
 public class ConnectAllPeers {
 
-    static List<String> ipList = new ArrayList<String>();
+    static List<String> ipList = new ArrayList<>();
     final static int ServerPort = 8000;
 
     public ConnectAllPeers() {
@@ -36,20 +36,18 @@ public class ConnectAllPeers {
     public static List<ServerConnection> connectToServer() throws IOException {
         
         String ip;
-        List<ServerConnection> serverConnectionList=new ArrayList<ServerConnection>();
-        for(int i=0;i<ipList.size();i++)
-        {
-            ip=ipList.get(i);
+        List<ServerConnection> serverConnectionList=new ArrayList<>();
+        for (String ipList1 : ipList) {
+            ip = ipList1;
             Socket s = new Socket(ip, ServerPort);
             System.out.println(s);
             ServerConnection serv_conn=new ServerConnection(ip, ServerPort, s);
             System.out.println(serv_conn);
             serverConnectionList.add(serv_conn);
         }
-        for(int i=0;i<serverConnectionList.size();i++)
-        {
-            System.out.println(serverConnectionList.get(i).getS());
-        }
+        serverConnectionList.stream().forEach((serverConnectionList1) -> {
+            System.out.println(serverConnectionList1.getS());
+        });
         return serverConnectionList;
     }
 
