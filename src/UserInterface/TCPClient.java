@@ -16,6 +16,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Arrays;
 import SplitMergeFiles.Split;
+import SendReceive.SendFiles;
 
 public class TCPClient extends JFrame implements ActionListener, MouseListener {
 
@@ -140,6 +141,131 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
         getContentPane().add(panel);
     }
 
+    public TCPClient() {
+    }
+    
+    
+    
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public JLabel getSubT() {
+        return subT;
+    }
+
+    public JLabel getMsg() {
+        return msg;
+    }
+
+    public JLabel getError() {
+        return error;
+    }
+
+    public JLabel getServFiles() {
+        return servFiles;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    public Font getLabelfont() {
+        return labelfont;
+    }
+
+    public JTextField getTxt() {
+        return txt;
+    }
+
+    public JButton getUp() {
+        return up;
+    }
+
+    public JButton getDown() {
+        return down;
+    }
+
+    public String getDirName() {
+        return dirName;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
+    public InputStream getInFromServer() {
+        return inFromServer;
+    }
+
+    public OutputStream getOutToServer() {
+        return outToServer;
+    }
+
+    public BufferedInputStream getBis() {
+        return bis;
+    }
+
+    public PrintWriter getPw() {
+        return pw;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getHostAddr() {
+        return hostAddr;
+    }
+
+    public int getPortNumber() {
+        return portNumber;
+    }
+
+    public int getC() {
+        return c;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public JList<String> getFilelist() {
+        return filelist;
+    }
+
+    public String[] getNames() {
+        return names;
+    }
+
+    public int getLen() {
+        return len;
+    }
+
+    public String getSelectedItem() {
+        return selectedItem;
+    }
+
+    public static String getDir() {
+        return dir;
+    }
+
+    public static String getSuffix() {
+        return suffix;
+    }
+
+    public static Integer getCount() {
+        return count;
+    }
+
     @Override
     public void mouseClicked(MouseEvent click) {
         if (click.getClickCount() == 2) {
@@ -189,11 +315,12 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
 
                 //Calling File Splitting
                 try {
-                    Split sp=new Split();
-                    sp.splitFile(selectedItem, 200);
+                    Split sp = new Split();
+                    sp.splitFile(selectedItem, 15);
                 } catch (IOException e) {
                     System.out.println(e);
                 }
+                //-------------------------------------------correct till here-------------
 
                 if (fileExists) {
                     // send file name to server
@@ -208,7 +335,9 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
                     System.out.println("Completed");
                     error.setText("Completed");
                     panel.revalidate();
-
+                    
+                    SendFiles sendfiles=new SendFiles(selectedItem,10);
+                    
                     boolean exists = false;
                     for (int i = 0; i < len; i++) {
                         if (names[i].equals(name)) {
@@ -301,6 +430,6 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
         out.flush();
     }
 
-	//-----------File Splitting Begins----------------------
-	//-----------File Splitting Ends------------------------
+    //-----------File Splitting Begins----------------------
+    //-----------File Splitting Ends------------------------
 }
