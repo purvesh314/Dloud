@@ -9,6 +9,7 @@ package UserInterface;
  *
  * @author tecomp
  */
+
 public class Dashboard extends javax.swing.JFrame {
 
     /**

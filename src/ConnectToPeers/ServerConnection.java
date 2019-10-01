@@ -16,58 +16,58 @@ import java.net.Socket;
  */
 public class ServerConnection {
 
-    static String ip = "";
-    static int port = 0;
-    static Socket s;
-    static DataInputStream dis;
-    static DataOutputStream dos;
+    String ip = "";
+    int port = 0;
+    Socket s;
+    DataInputStream dis;
+    DataOutputStream dos;
 
-    public static void setIp(String ip) {
-        ServerConnection.ip = ip;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
-    public static void setPort(int port) {
-        ServerConnection.port = port;
+    public void setPort(int port) {
+        this.port = port;
     }
 
-    public static void setS(Socket s) {
-        ServerConnection.s = s;
+    public void setS(Socket s) {
+        this.s = s;
     }
 
-    public static void setDis(DataInputStream dis) {
-        ServerConnection.dis = dis;
+    public void setDis(DataInputStream dis) {
+        this.dis = dis;
     }
 
-    public static void setDos(DataOutputStream dos) {
-        ServerConnection.dos = dos;
+    public void setDos(DataOutputStream dos) {
+        this.dos = dos;
     }
 
-    public static String getIp() {
+    public String getIp() {
         return ip;
     }
 
-    public static int getPort() {
+    public int getPort() {
         return port;
     }
 
-    public static Socket getS() {
+    public Socket getS() {
         return s;
     }
 
-    public static DataInputStream getDis() {
+    public DataInputStream getDis() {
         return dis;
     }
 
-    public static DataOutputStream getDos() {
+    public DataOutputStream getDos() {
         return dos;
     }
 
     public ServerConnection(String ip, int port, Socket s) throws IOException {
-        ServerConnection.ip = ip;
-        ServerConnection.port = port;
-        ServerConnection.s = s;
-        ServerConnection.dis = new DataInputStream(s.getInputStream());
-        ServerConnection.dos = new DataOutputStream(s.getOutputStream());
+        this.ip = ip;
+        this.port = port;
+        this.s = s;
+        this.dis = new DataInputStream(s.getInputStream());
+        this.dos = new DataOutputStream(s.getOutputStream());
 
     }
 
