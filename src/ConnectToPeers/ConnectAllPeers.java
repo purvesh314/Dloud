@@ -44,6 +44,7 @@ public class ConnectAllPeers {
             System.out.println(s);
             ServerConnection serv_conn=new ServerConnection(ip, ServerPort, s);
             System.out.println(serv_conn);
+            
             serverConnectionList.add(serv_conn);
         }
         for(int i=0;i<serverConnectionList.size();i++)
