@@ -5,9 +5,13 @@
  */
 package ConnectToPeers;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 /**
@@ -19,8 +23,10 @@ public class ServerConnection {
     String ip = "";
     int port = 0;
     Socket s;
-    DataInputStream dis;
-    DataOutputStream dos;
+    OutputStream dos;
+    InputStream dis;
+
+
 
     public void setIp(String ip) {
         this.ip = ip;
@@ -54,21 +60,31 @@ public class ServerConnection {
         return s;
     }
 
-    public DataInputStream getDis() {
-        return dis;
+    public void setDos(OutputStream dos) {
+        this.dos = dos;
     }
 
-    public DataOutputStream getDos() {
-        return dos;
+    public void setDis(InputStream dis) {
+        this.dis = dis;
     }
+    
+    
 
+    
     public ServerConnection(String ip, int port, Socket s) throws IOException {
         this.ip = ip;
         this.port = port;
         this.s = s;
-        this.dis = new DataInputStream(s.getInputStream());
-        this.dos = new DataOutputStream(s.getOutputStream());
+        this.dis=s.getInputStream();
+        this.dos=s.getOutputStream();
+    }
 
+    public OutputStream getDos() {
+        return dos;
+    }
+
+    public InputStream getDis() {
+        return dis;
     }
 
     public ServerConnection() {

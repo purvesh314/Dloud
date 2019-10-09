@@ -12,23 +12,33 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import ConnectToPeers.ServerConnection;
-/**
- *
- * @author tecomp
- */
+
 
 
 
 public class ConnectAllPeers {
 
     static List<String> ipList = new ArrayList<>();
+    static List<ServerConnection> serverConnectionList=new ArrayList<>();
     final static int ServerPort = 8000;
 
+    public static List<String> getIpList() {
+        return ipList;
+    }
+
+    public static int getServerPort() {
+        return ServerPort;
+    }
+    
+    public static List<ServerConnection> getServerConnectionList() {
+        return serverConnectionList;
+    }
+    
+    
     public ConnectAllPeers() {
 
-        ipList.add("10.10.11.32");
-        ipList.add("10.10.10.13");
+        ipList.add("192.168.43.63");
+        ipList.add("192.168.43.69");
         //ipList.add("10.10.12.163");
 
     }
@@ -36,7 +46,7 @@ public class ConnectAllPeers {
     public static List<ServerConnection> connectToServer() throws IOException {
         
         String ip;
-        List<ServerConnection> serverConnectionList=new ArrayList<>();
+        
         for (String ipList1 : ipList) {
             ip = ipList1;
             Socket s = new Socket(ip, ServerPort);
@@ -50,5 +60,10 @@ public class ConnectAllPeers {
         });
         return serverConnectionList;
     }
+
+    
+    
+    
+    
 
 }

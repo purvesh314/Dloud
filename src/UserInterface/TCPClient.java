@@ -9,6 +9,7 @@ package UserInterface;
  *
  * @author purvesh
  */
+import ConnectToPeers.ServerConnection;
 import java.io.*;
 import java.net.*;
 import java.awt.*;
@@ -16,6 +17,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Arrays;
 import SplitMergeFiles.Split;
+import java.nio.file.Path;
+import SendingReceiving.SendData;
+import java.util.StringTokenizer;
 
 public class TCPClient extends JFrame implements ActionListener, MouseListener {
 
@@ -45,19 +49,21 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
     private static final String dir = "./";
     private static final String suffix = ".splitPart";
     private static Integer count = 0;
+    
+    java.util.List<ServerConnection> serverConnectionList;
     //--------------------------------------------------
 
-    public TCPClient(String dir, String host, int port) {
+    public TCPClient(String dir, java.util.List<ServerConnection> serverConnectionList) {
         super("TCP CLIENT");
 
         // set dirName to the one that's entered by the user
         dirName = dir;
-
-        // set hostAddr to the one that's passed by the user
-        hostAddr = host;
-
-        // set portNumber to the one that's passed by the user
-        portNumber = port;
+        this.serverConnectionList=serverConnectionList;
+//        // set hostAddr to the one that's passed by the user
+//        hostAddr = host;
+//
+//        // set portNumber to the one that's passed by the user
+//        portNumber = port;
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -96,34 +102,34 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
         down.addActionListener(this);
 
         try {
-            clientSocket = new Socket(hostAddr, portNumber);
-            inFromServer = clientSocket.getInputStream();
-            pw = new PrintWriter(clientSocket.getOutputStream(), true);
-            outToServer = clientSocket.getOutputStream();
-            ObjectInputStream oin = new ObjectInputStream(inFromServer);
-            String s = (String) oin.readObject();
-            System.out.println(s);
-
-            len = Integer.parseInt((String) oin.readObject());
-            System.out.println(len);
-
-            String[] temp_names = new String[len];
-
-            for (int i = 0; i < len; i++) {
-                String filename = (String) oin.readObject();
-                System.out.println(filename);
-                names[i] = filename;
-                temp_names[i] = filename;
-            }
-
-            // sort the array of strings that's going to get displayed in the scrollpane
-            Arrays.sort(temp_names);
+//            clientSocket = new Socket(hostAddr, portNumber);
+//            inFromServer = clientSocket.getInputStream();
+//            pw = new PrintWriter(clientSocket.getOutputStream(), true);
+//            outToServer = clientSocket.getOutputStream();
+//            ObjectInputStream oin = new ObjectInputStream(inFromServer);
+//            String s = (String) oin.readObject();
+//            System.out.println(s);
+//
+//            len = Integer.parseInt((String) oin.readObject());
+//            System.out.println(len);
+//
+//            String[] temp_names = new String[len];
+//
+//            for (int i = 0; i < len; i++) {
+//                String filename = (String) oin.readObject();
+//                System.out.println(filename);
+//                names[i] = filename;
+//                temp_names[i] = filename;
+//            }
+//
+//            // sort the array of strings that's going to get displayed in the scrollpane
+//            Arrays.sort(temp_names);
 
             servFiles = new JLabel("Files in the Server Directory :");
             servFiles.setBounds(350, 125, 400, 50);
             panel.add(servFiles);
 
-            filelist = new JList<>(temp_names);
+//            filelist = new JList<>(temp_names);
             JScrollPane scroll = new JScrollPane(filelist);
             scroll.setBounds(300, 200, 400, 200);
 
@@ -189,8 +195,13 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
 
                 //Calling File Splitting
                 try {
+                    System.out.println("Here"+dirName + "Path : "+path);
                     Split sp=new Split();
-                    sp.splitFile(selectedItem, 200);
+                    System.out.println("After");
+                    java.util.List<Path> splitFile12 = sp.splitFile(path,name, 10);
+                    SendData sd=new SendData(name, serverConnectionList);
+                    sd.sendData();
+                    
                 } catch (IOException e) {
                     System.out.println(e);
                 }
@@ -204,7 +215,7 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
                     panel.revalidate();
 
                     // send file data to server
-                    sendBytes(bis, outToServer);
+                    //sendBytes(bis, outToServer);
                     System.out.println("Completed");
                     error.setText("Completed");
                     panel.revalidate();
@@ -292,14 +303,7 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
         }
     }
 
-    private static void sendBytes(BufferedInputStream in, OutputStream out) throws Exception {
-        int size = 9022386;
-        byte[] data = new byte[size];
-        int bytes = 0;
-        int c = in.read(data, 0, data.length);
-        out.write(data, 0, c);
-        out.flush();
-    }
+    
 
 	//-----------File Splitting Begins----------------------
 	//-----------File Splitting Ends------------------------

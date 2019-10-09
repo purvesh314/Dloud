@@ -24,26 +24,30 @@ public class Dloud {
         // TODO code application logic here
         List<ServerConnection> serverConnectionList = new ArrayList<ServerConnection>();
         ConnectAllPeers c = new ConnectAllPeers();
-//        serverConnectionList = c.connectToServer();
-//        for (int i = 0; i < serverConnectionList.size(); i++) {
-//            System.out.println(serverConnectionList.get(i).getS());
-//        }
-
-        if (args.length >= 3) {
-            TCPClient tcp = new TCPClient(args[0], args[1], Integer.parseInt(args[2]));
-            tcp.setSize(1000, 900);
-            tcp.setVisible(true);
-        } else if (args.length == 2) {
-            TCPClient tcp = new TCPClient(args[0], args[1], 3333);
-            tcp.setSize(1000, 900);
-            tcp.setVisible(true);
-        } else if (args.length == 1) {
-            TCPClient tcp = new TCPClient(args[0], "localhost", 3333);
-            tcp.setSize(1000, 900);
-            tcp.setVisible(true);
-        } else {
-            System.out.println("Please enter the client directory address as first argument while running from command line.");
+        serverConnectionList = c.connectToServer();
+        for (int i = 0; i < serverConnectionList.size(); i++) {
+            System.out.println(serverConnectionList.get(i).getS());
         }
+
+        TCPClient tcp = new TCPClient("/home/purvesh/Dloud/src/dloud/",serverConnectionList);
+            tcp.setSize(1000, 900);
+            tcp.setVisible(true);
+        
+//        if (args.length >= 3) {
+//            TCPClient tcp = new TCPClient(args[0], args[1], Integer.parseInt(args[2]));
+//            tcp.setSize(1000, 900);
+//            tcp.setVisible(true);
+//        } else if (args.length == 2) {
+//            TCPClient tcp = new TCPClient(args[0], args[1], 3333);
+//            tcp.setSize(1000, 900);
+//            tcp.setVisible(true);
+//        } else if (args.length == 1) {
+//            TCPClient tcp = new TCPClient(args[0], "localhost", 3333);
+//            tcp.setSize(1000, 900);
+//            tcp.setVisible(true);
+//        } else {
+//            System.out.println("Please enter the client directory address as first argument while running from command line.");
+//        }
     }
 
 }

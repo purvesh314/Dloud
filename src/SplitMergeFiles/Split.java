@@ -16,9 +16,10 @@ import java.io.*;
 
 public class Split {
 
-    private static final String dir = "./";
+    private static final String dir = "";
     private static final String suffix = ".splitPart";
     private static Integer count = 0;
+//    private static String fn="";
 
     /**
      * Split a file into multiples files.
@@ -27,7 +28,7 @@ public class Split {
      * @param mBperSplit maximum number of MB per file.
      * @throws IOException
      */
-    public static List<Path> splitFile(final String fileName, final int mBperSplit) throws IOException {
+    public static List<Path> splitFile(final String fileName, final String fn, final int mBperSplit) throws IOException {
 
         if (mBperSplit <= 0) {
             throw new IllegalArgumentException("mBperSplit must be more than zero");
@@ -39,25 +40,25 @@ public class Split {
         final long numSplits = sourceSize / bytesPerSplit;
         final long remainingBytes = sourceSize % bytesPerSplit;
         int position = 0;
-
+        System.out.println("Filename : " + fileName);
         try (RandomAccessFile sourceFile = new RandomAccessFile(fileName, "r");
                 FileChannel sourceChannel = sourceFile.getChannel()) {
 
             for (; position < numSplits; position++) {
                 //write multipart files.
-                writePartToFile(bytesPerSplit, position * bytesPerSplit, sourceChannel, partFiles);
+                writePartToFile(bytesPerSplit, position * bytesPerSplit, sourceChannel, partFiles, fn);
             }
 
             if (remainingBytes > 0) {
-                writePartToFile(remainingBytes, position * bytesPerSplit, sourceChannel, partFiles);
+                writePartToFile(remainingBytes, position * bytesPerSplit, sourceChannel, partFiles, fn);
             }
         }
         return partFiles;
     }
 
-    private static void writePartToFile(long byteSize, long position, FileChannel sourceChannel, List<Path> partFiles) throws IOException {
-
-        Path fileName = Paths.get(dir + count + suffix);
+    private static void writePartToFile(long byteSize, long position, FileChannel sourceChannel, List<Path> partFiles, String fn) throws IOException {
+        System.out.println("Directory : " + dir + " " + suffix);
+        Path fileName = Paths.get(dir + fn + "." + count + suffix);
         System.out.println("Filename : " + fileName);
         try (RandomAccessFile toFile = new RandomAccessFile(fileName.toFile(), "rw");
                 FileChannel toChannel = toFile.getChannel()) {

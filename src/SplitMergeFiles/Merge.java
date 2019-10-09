@@ -9,13 +9,11 @@ package SplitMergeFiles;
  *
  * @author tecomp
  */
-
-import java.io.*;
-import java.io.File;  
-import java.io.FileOutputStream;  
-import java.io.FileInputStream;  
-import java.nio.channels.WritableByteChannel;  
-import java.nio.channels.FileChannel; 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.nio.channels.WritableByteChannel;
+import java.nio.channels.FileChannel;
 
 public class Merge {
 
@@ -37,15 +35,14 @@ public class Merge {
                 System.out.println(fname);
                 fname = fname.concat(suffix);
                 System.out.println(fname);
-                //Path fname = Paths.get(dir + counter + suffix);
-                FileInputStream input = new FileInputStream(fname);
-                FileChannel inputChannel = input.getChannel();
-                //if(!inputChannel)
-                //	break;
-                inputChannel.transferTo(0, inputChannel.size(), targetChannel);
-                counter++;
-                inputChannel.close();
-                input.close();
+                try ( //Path fname = Paths.get(dir + counter + suffix);
+                        FileInputStream input = new FileInputStream(fname);
+                        FileChannel inputChannel = input.getChannel()) {
+                    //if(!inputChannel)
+                    //	break;
+                    inputChannel.transferTo(0, inputChannel.size(), targetChannel);
+                    counter++;
+                }
             }
 
             // targetChannel.close();
