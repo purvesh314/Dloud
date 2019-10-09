@@ -29,7 +29,7 @@ public class Dloud {
             System.out.println(serverConnectionList.get(i).getS());
         }
 
-        TCPClient tcp = new TCPClient("/home/purvesh/Dloud/src/dloud/",serverConnectionList);
+        TCPClient tcp = new TCPClient("./",serverConnectionList);
             tcp.setSize(1000, 900);
             tcp.setVisible(true);
         

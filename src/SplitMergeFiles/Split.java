@@ -29,7 +29,7 @@ public class Split {
      * @throws IOException
      */
     public static List<Path> splitFile(final String fileName, final String fn, final int mBperSplit) throws IOException {
-
+        long startTime=System.currentTimeMillis();
         if (mBperSplit <= 0) {
             throw new IllegalArgumentException("mBperSplit must be more than zero");
         }
@@ -53,6 +53,7 @@ public class Split {
                 writePartToFile(remainingBytes, position * bytesPerSplit, sourceChannel, partFiles, fn);
             }
         }
+        System.out.println("Splitting Time : "+(System.currentTimeMillis()-startTime)/1000);
         return partFiles;
     }
 

@@ -5,7 +5,6 @@
  */
 package ConnectToPeers;
 
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -13,13 +12,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 public class ConnectAllPeers {
 
     static List<String> ipList = new ArrayList<>();
-    static List<ServerConnection> serverConnectionList=new ArrayList<>();
+    static List<ServerConnection> serverConnectionList = new ArrayList<>();
     final static int ServerPort = 8000;
 
     public static List<String> getIpList() {
@@ -29,29 +25,30 @@ public class ConnectAllPeers {
     public static int getServerPort() {
         return ServerPort;
     }
-    
+
     public static List<ServerConnection> getServerConnectionList() {
         return serverConnectionList;
     }
-    
-    
+
     public ConnectAllPeers() {
 
-        ipList.add("192.168.43.63");
-        ipList.add("192.168.43.69");
-        //ipList.add("10.10.12.163");
+        ipList.add("10.10.12.24");
+        ipList.add("10.10.13.235");
 
+        ipList.add("10.10.13.252");
+        ipList.add("10.10.13.63");
+        //ipList.add("192.168.1.5");
     }
 
     public static List<ServerConnection> connectToServer() throws IOException {
-        
+
         String ip;
-        
+
         for (String ipList1 : ipList) {
             ip = ipList1;
             Socket s = new Socket(ip, ServerPort);
             System.out.println(s);
-            ServerConnection serv_conn=new ServerConnection(ip, ServerPort, s);
+            ServerConnection serv_conn = new ServerConnection(ip, ServerPort, s);
             System.out.println(serv_conn);
             serverConnectionList.add(serv_conn);
         }
@@ -60,10 +57,5 @@ public class ConnectAllPeers {
         });
         return serverConnectionList;
     }
-
-    
-    
-    
-    
 
 }

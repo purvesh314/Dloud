@@ -11,4 +11,6 @@ package SendingReceiving;
  */
 public class ReceiveData {
     
+    
+    
 }

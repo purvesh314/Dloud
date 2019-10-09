@@ -20,6 +20,7 @@ import SplitMergeFiles.Split;
 import java.nio.file.Path;
 import SendingReceiving.SendData;
 import java.util.StringTokenizer;
+import SendingReceiving.Clean;
 
 public class TCPClient extends JFrame implements ActionListener, MouseListener {
 
@@ -198,9 +199,11 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
                     System.out.println("Here"+dirName + "Path : "+path);
                     Split sp=new Split();
                     System.out.println("After");
-                    java.util.List<Path> splitFile12 = sp.splitFile(path,name, 10);
+                    java.util.List<Path> splitFile12 = sp.splitFile(path,name, 50);
                     SendData sd=new SendData(name, serverConnectionList);
                     sd.sendData();
+                    Clean c1=new Clean(name);
+                    c1.cleanup();
                     
                 } catch (IOException e) {
                     System.out.println(e);
