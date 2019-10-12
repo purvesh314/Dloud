@@ -21,6 +21,11 @@ import java.nio.file.Path;
 import SendingReceiving.SendData;
 import java.util.StringTokenizer;
 import SendingReceiving.Clean;
+import FileData.DatabaseConnection;
+import FileData.FileInfo;
+import FileData.ServerFile;
+import java.util.ArrayList;
+
 
 public class TCPClient extends JFrame implements ActionListener, MouseListener {
 
@@ -103,34 +108,39 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
         down.addActionListener(this);
 
         try {
-//            clientSocket = new Socket(hostAddr, portNumber);
-//            inFromServer = clientSocket.getInputStream();
-//            pw = new PrintWriter(clientSocket.getOutputStream(), true);
-//            outToServer = clientSocket.getOutputStream();
-//            ObjectInputStream oin = new ObjectInputStream(inFromServer);
+            clientSocket = new Socket("192.168.43.212", 8000);
+            inFromServer = clientSocket.getInputStream();
+            pw = new PrintWriter(clientSocket.getOutputStream(), true);
+            outToServer = clientSocket.getOutputStream();
+            ObjectInputStream oin = new ObjectInputStream(inFromServer);
 //            String s = (String) oin.readObject();
 //            System.out.println(s);
-//
-//            len = Integer.parseInt((String) oin.readObject());
-//            System.out.println(len);
-//
-//            String[] temp_names = new String[len];
-//
-//            for (int i = 0; i < len; i++) {
-//                String filename = (String) oin.readObject();
-//                System.out.println(filename);
-//                names[i] = filename;
-//                temp_names[i] = filename;
-//            }
-//
-//            // sort the array of strings that's going to get displayed in the scrollpane
-//            Arrays.sort(temp_names);
+//            java.util.List<FileInfo> filelist=new ArrayList<>();
+            
+
+            len = Integer.parseInt((String) oin.readObject());
+            System.out.println(len);
+
+            String[] temp_names = new String[len];
+
+            for (int i = 0; i < len; i++) {
+//                ServerFile filename = (ServerFile) oin.readObject();
+                String filename = (String) oin.readObject();
+                System.out.println("In for");
+                System.out.println(filename);
+                
+                names[i] = filename;
+                temp_names[i] = filename;
+            }
+
+            // sort the array of strings that's going to get displayed in the scrollpane
+            Arrays.sort(temp_names);
 
             servFiles = new JLabel("Files in the Server Directory :");
             servFiles.setBounds(350, 125, 400, 50);
             panel.add(servFiles);
 
-//            filelist = new JList<>(temp_names);
+            filelist = new JList<>(temp_names);
             JScrollPane scroll = new JScrollPane(filelist);
             scroll.setBounds(300, 200, 400, 200);
 
@@ -204,6 +214,9 @@ public class TCPClient extends JFrame implements ActionListener, MouseListener {
                     sd.sendData();
                     Clean c1=new Clean(name);
                     c1.cleanup();
+                    DatabaseConnection dc=new DatabaseConnection();
+                    dc.uploadData(name);
+                    
                     
                 } catch (IOException e) {
                     System.out.println(e);

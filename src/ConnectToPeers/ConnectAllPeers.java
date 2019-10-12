@@ -16,7 +16,7 @@ public class ConnectAllPeers {
 
     static List<String> ipList = new ArrayList<>();
     static List<ServerConnection> serverConnectionList = new ArrayList<>();
-    final static int ServerPort = 8000;
+    final static int ServerPort = 8001;
 
     public static List<String> getIpList() {
         return ipList;
@@ -32,11 +32,11 @@ public class ConnectAllPeers {
 
     public ConnectAllPeers() {
 
-        ipList.add("10.10.12.24");
-        ipList.add("10.10.13.235");
-
-        ipList.add("10.10.13.252");
-        ipList.add("10.10.13.63");
+//          ipList.add("192.168.43.63");
+//        ipList.add("10.10.13.235");
+//
+//        ipList.add("10.10.13.252");
+//        ipList.add("10.10.13.63");
         //ipList.add("192.168.1.5");
     }
 
